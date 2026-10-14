@@ -13,9 +13,11 @@ type Phase = "loading" | "idle" | "recording" | "scoring";
 const button =
   "rounded-lg px-4 py-2 font-medium text-white disabled:opacity-40 bg-slate-800 hover:bg-slate-700";
 
-export default function Practice() {
-  const [items, setItems] = useState<SpeakingItem[]>([]);
-  const [index, setIndex] = useState(0);
+/** The practice view. Without `items` it practises the speaking items; a reading page passes the
+ *  sentences of a passage and the one tapped (`first`). */
+export default function Practice({ given, first = 0 }: { given?: SpeakingItem[]; first?: number }) {
+  const [items, setItems] = useState<SpeakingItem[]>(given ?? []);
+  const [index, setIndex] = useState(first);
   const [phase, setPhase] = useState<Phase>("loading");
   const [error, setError] = useState<string | null>(null); // a message key
   const [audio, setAudio] = useState<Blob | null>(null); // kept so a failed scoring can be resent
@@ -27,11 +29,15 @@ export default function Practice() {
 
   useEffect(() => {
     setDebug(isDebug(window.location.search));
-    loadItems().then((loaded) => {
-      if (loaded.ok) setItems(loaded.data.items);
-      else setError(loaded.messageKey);
+    if (given) {
       setPhase("idle");
-    });
+    } else {
+      loadItems().then((loaded) => {
+        if (loaded.ok) setItems(loaded.data.items);
+        else setError(loaded.messageKey);
+        setPhase("idle");
+      });
+    }
     return () => void recording.current?.stop(); // leaving the page must release the microphone
   }, []);
 
