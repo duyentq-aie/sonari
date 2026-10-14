@@ -61,6 +61,16 @@ def test_it_runs_at_commit_time(config: dict[str, Any]) -> None:
     assert "pre-commit" in config.get("default_stages", ["pre-commit"])
 
 
+def test_it_runs_on_a_merge_commit_too_and_make_setup_installs_that_hook(
+    config: dict[str, Any],
+) -> None:
+    assert "pre-merge-commit" in config.get("default_stages", ["pre-commit"])
+    setup = (
+        (ROOT / "Makefile").read_text(encoding="utf-8").split("\nsetup:\n", 1)[1].split("\n\n")[0]
+    )
+    assert "pre-commit install --hook-type pre-merge-commit" in setup
+
+
 def test_the_global_exclude_hides_no_tracked_file_except_claude_settings(
     config: dict[str, Any],
 ) -> None:

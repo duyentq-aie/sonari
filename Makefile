@@ -12,10 +12,12 @@ TYPECHECK_TARGETS := $(SERVICES:%=typecheck-%)
 	test-tools check-phoneset check-imports fmt lint-scripts typecheck-web test-web build-web \
 	$(LINT_TARGETS) $(TYPECHECK_TARGETS)
 
-# One-time setup per clone: the pre-commit hook and the commit-msg hook (strips AI trailers).
+# One-time setup per clone: the pre-commit hook, the pre-merge-commit hook (the same checks on a
+# merge commit, which skips pre-commit) and the commit-msg hook (strips AI trailers).
 # Git worktrees of the clone share these hooks.
 setup:
 	uvx pre-commit install
+	uvx pre-commit install --hook-type pre-merge-commit
 	uvx pre-commit install --hook-type commit-msg
 
 # Local settings. Created once from the example and never overwritten.
