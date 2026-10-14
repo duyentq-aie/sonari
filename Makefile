@@ -201,6 +201,19 @@ score-vi:
 	@test -n "$(DUMP)" -a -n "$(NOTES)" || { echo "usage: make score-vi DUMP=<dir> NOTES=<file>"; exit 1; }
 	PYTHONPATH=$(CURDIR)/tools $(UV_RUN) services/speech python -m score_eval.vi --dump $(abspath $(DUMP)) --notes $(abspath $(NOTES))
 
+# The "listen" audio of the practice sentences (tools/listen_audio/README.md): Kokoro-82M, pinned in
+# kokoro.yaml, in spikes/tts's environment (torch, CPU; first run downloads about 330 MB). Rewrites
+# apps/web/public/listen/. Offline only: no TTS runs in any service.
+.PHONY: listen-audio
+listen-audio:
+	uv run --directory spikes/tts --with pyyaml python $(CURDIR)/tools/listen_audio/synth.py
+
+# Scores every listen file with a running speech service (synthetic speech; README.md reports it).
+SPEECH_URL ?= http://localhost:8001
+.PHONY: score-listen
+score-listen:
+	$(UV_RUN) services/speech python $(CURDIR)/tools/listen_audio/score.py $(SPEECH_URL)
+
 .PHONY: speaking-items
 speaking-items:
 	PYTHONPATH=$(CURDIR)/tools $(UV_RUN) services/speech python -m speaking_items.pick $(ARGS)

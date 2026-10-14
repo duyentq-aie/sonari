@@ -5,6 +5,7 @@ import { loadItems, scoreRecording, type SpeakingItem } from "../lib/api";
 import { messageFor, t } from "../lib/messages";
 import { RecorderError, startRecording, type Recording } from "../lib/recorder";
 import { isDebug, step, type ScoreResponse } from "../lib/score";
+import { Listen } from "./listen";
 import { CARD, ScoreView } from "./result";
 
 type Phase = "loading" | "idle" | "recording" | "scoring";
@@ -99,6 +100,7 @@ export default function Practice() {
         </p>
       )}
       {result && <ScoreView result={result} selected={selected} onSelect={setSelected} />}
+      {item && <Listen itemId={item.id} />}
 
       <div className="flex flex-wrap gap-2">
         {phase === "recording" ? (
