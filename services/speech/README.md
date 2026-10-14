@@ -26,8 +26,8 @@ ready (the reason is in the log).
 | Variable | Default | Meaning |
 |---|---|---|
 | `SPEECH_MODEL_DIR` | `$DATA_DIR/onnx` (`/models` in the image) | holds `wav2vec2_int8.onnx` |
-| `SPEECH_CORES` | CPUs usable by the process, capped by the container quota | inference slots |
-| `SPEECH_MAX_IN_FLIGHT` | from BENCH.md: 1 core 2, 2 cores 5, 4+ cores 7 | running + waiting |
+| `SPEECH_CORES` | CPUs usable by the process, capped by the container quota | inference slots, up to the in-flight limit |
+| `SPEECH_MAX_IN_FLIGHT` | from BENCH.md: 1 core 2, 2 cores 5, 4+ cores 7 (never the core count) | running + waiting; explicit override |
 | `SPEECH_INTRA_OP_THREADS` | 1 | as measured in BENCH.md |
 | `SPEECH_RETRY_AFTER_S` | 2 | value of `Retry-After` |
 
@@ -73,7 +73,8 @@ started fetching the NLTK cmudict at build time (2026-10-07, not yet rebuilt or 
 | Memory at idle | 583 MiB (int8, `--cpus 2`) |
 | One clip | 150-165 ms for decode + trim + inference of a 0.8 s clip |
 
-The log shows the capacity in use: `model ready: cores=2 slots=2 in_flight_limit=5`.
+The log shows the capacity in use: `model ready: cores=2 slots=2 in_flight_limit=5`; on 12 cores
+`cores=12 slots=7 in_flight_limit=7` (12 at once measured p95 2.08 s, over the 2 s target).
 
 ## Reference pronunciation (P21)
 

@@ -58,9 +58,10 @@ class Settings(BaseSettings):
     model_dir: Path = Field(default_factory=default_model_dir)
     # One intra-op thread per request, as BENCH.md measured the capacity.
     intra_op_threads: int = Field(default=1, ge=1)
-    # Cores this process may use; inference runs this many requests at once.
+    # Cores this process may use; inference runs up to this many requests at once (`slots`).
     cores: int = Field(default_factory=usable_cores, ge=1)
-    # Running plus waiting requests; one more is refused with 503. None: BENCH.md's table.
+    # Running plus waiting requests; one more is refused with 503. None: BENCH.md's table for
+    # `cores`. Set it (SPEECH_MAX_IN_FLIGHT) to a capacity measured on the real machine.
     max_in_flight: int | None = Field(default=None, ge=1)
     retry_after_s: int = Field(default=2, ge=1)
 
@@ -80,9 +81,14 @@ class Settings(BaseSettings):
 
     @property
     def slots(self) -> int:
-        return self.cores
+        """Requests inferring at once: one per core, but never more than may be in flight, since
+        a running request is in flight too and a slot past the limit could never be used. On 12
+        cores that is 7, BENCH.md's capacity: each admitted request gets its own core and none
+        waits (12 at once measured p95 2.08 s, over the 2 s target; 7 measured 1.26 s)."""
+        return min(self.cores, self.in_flight_limit)
 
     @property
     def in_flight_limit(self) -> int:
-        limit = self.max_in_flight if self.max_in_flight is not None else capacity_for(self.cores)
-        return max(limit, self.slots)
+        """SPEECH_MAX_IN_FLIGHT as given, else the measured capacity for the cores: never more
+        than was measured, however many cores there are."""
+        return self.max_in_flight if self.max_in_flight is not None else capacity_for(self.cores)
