@@ -214,6 +214,12 @@ SPEECH_URL ?= http://localhost:8001
 score-listen:
 	$(UV_RUN) services/speech python $(CURDIR)/tools/listen_audio/score.py $(SPEECH_URL)
 
+# Passage type, safety flags, units and practicable sentences -> ~/sonari-trimmed/voa/classes.jsonl
+# (tools/speaking_items/classes.py, about 1 min; read-only on the corpus).
+.PHONY: passage-classes
+passage-classes:
+	PYTHONPATH=$(CURDIR)/tools $(UV_RUN) services/speech python -m speaking_items.classes $(ARGS)
+
 .PHONY: speaking-items
 speaking-items:
 	PYTHONPATH=$(CURDIR)/tools $(UV_RUN) services/speech python -m speaking_items.pick $(ARGS)
