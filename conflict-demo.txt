@@ -1,6 +1,0 @@
-Deliberate, to show the CI check failing; removed in the next commit.
-<<<<<<< HEAD
-ours
-=======
-theirs
->>>>>>> demo
