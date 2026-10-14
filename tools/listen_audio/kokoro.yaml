@@ -1,0 +1,23 @@
+# The TTS model behind the "listen" audio, pinned like services/speech/.../runtime/models.yaml pins
+# wav2vec2: a Hugging Face commit, and the SHA-256 and size of every file read. synth.py refuses
+# a file that differs. Only the offline generator reads these; nothing ships in any image.
+repo: hexgrad/Kokoro-82M
+revision: f3ff3571791e39611d31c381e3a41a3af07b4987
+files:
+  config.json:
+    sha256: 5abb01e2403b072bf03d04fde160443e209d7a0dad49a423be15196b9b43c17f
+    size: 2351
+  kokoro-v1_0.pth:
+    sha256: 496dba118d1a58f5f3db2efc88dbdc216e0483fc89fe6e47ee1f2c53f18ad1e4
+    size: 327212226
+  voices/af_heart.pt:
+    sha256: 0ab5709b8ffab19bfd849cd11d98f75b60af7733253ad0d67b12382a102cb4ff
+    size: 523425
+  voices/bf_emma.pt:
+    sha256: d0a423deabf4a52b4f49318c51742c54e21bb89bbbe9a12141e7758ddb5da701
+    size: 523420
+# Voice key (used in file names and by the web app) -> Kokoro voice and its G2P language
+# (misaki: "a" American, "b" British).
+voices:
+  us: {name: af_heart, lang: a}
+  gb: {name: bf_emma, lang: b}

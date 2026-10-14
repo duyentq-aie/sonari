@@ -94,6 +94,15 @@
       "unclear": "Gạch chân chấm: chưa rõ (hệ thống chưa chắc, không phải lỗi)",
       "wrong": "Gạch chân liền: cần luyện"
     },
-    "result": "Kết quả (dữ liệu thô)"
+    "result": "Kết quả (dữ liệu thô)",
+    "listen": {
+      "play": "Nghe mẫu",
+      "voice": "Giọng đọc:",
+      "voices": {
+        "us": "Mỹ",
+        "gb": "Anh"
+      },
+      "synthetic": "Giọng mẫu do máy đọc, không phải người thật."
+    }
   }
 }

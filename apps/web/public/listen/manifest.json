@@ -1,0 +1,290 @@
+{
+  "model": "hexgrad/Kokoro-82M",
+  "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+  "voices": {
+    "us": "af_heart",
+    "gb": "bf_emma"
+  },
+  "files": [
+    {
+      "item": "voa:128607@voa-trim/163aae96e072#0:139",
+      "voice": "gb",
+      "file": "2237d9c544937095-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "bc74fa317fe2c77ba02a33d1476e2089d7e7a9df4b19ff17aff991bda4834245"
+    },
+    {
+      "item": "voa:128607@voa-trim/163aae96e072#0:139",
+      "voice": "us",
+      "file": "2237d9c544937095-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "bc74fa317fe2c77ba02a33d1476e2089d7e7a9df4b19ff17aff991bda4834245"
+    },
+    {
+      "item": "voa:2412382@voa-trim/163aae96e072#3:108",
+      "voice": "gb",
+      "file": "32a2595b647a80e7-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "7da5e1f911e2ffb96cfff4a8c8a5eaa8f686ca3461e1bc79c5420081d5810b12"
+    },
+    {
+      "item": "voa:2412382@voa-trim/163aae96e072#3:108",
+      "voice": "us",
+      "file": "32a2595b647a80e7-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "7da5e1f911e2ffb96cfff4a8c8a5eaa8f686ca3461e1bc79c5420081d5810b12"
+    },
+    {
+      "item": "voa:2412382@voa-trim/163aae96e072#5:92",
+      "voice": "gb",
+      "file": "c27c8805a5dfc66e-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "d8ab51a878a2ad45cadfad8f7412f7c90d5086bd32cd0228f2638f7a860079e1"
+    },
+    {
+      "item": "voa:2412382@voa-trim/163aae96e072#5:92",
+      "voice": "us",
+      "file": "c27c8805a5dfc66e-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "d8ab51a878a2ad45cadfad8f7412f7c90d5086bd32cd0228f2638f7a860079e1"
+    },
+    {
+      "item": "voa:2423454@voa-trim/163aae96e072#10:232",
+      "voice": "gb",
+      "file": "c132644aa1afa2fd-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "6a4ad14ddb68d3f5585c067e917b6d753ca6086bad94f0d52141ba99b3058ac0"
+    },
+    {
+      "item": "voa:2423454@voa-trim/163aae96e072#10:232",
+      "voice": "us",
+      "file": "c132644aa1afa2fd-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "6a4ad14ddb68d3f5585c067e917b6d753ca6086bad94f0d52141ba99b3058ac0"
+    },
+    {
+      "item": "voa:2423454@voa-trim/163aae96e072#8:308",
+      "voice": "gb",
+      "file": "3c0f1121b9dc3c89-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "f39248dc9cf9bac156e400f3efbbfe1bd80dbbf6d8d7ed312e6cac7968d68d7e"
+    },
+    {
+      "item": "voa:2423454@voa-trim/163aae96e072#8:308",
+      "voice": "us",
+      "file": "3c0f1121b9dc3c89-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "f39248dc9cf9bac156e400f3efbbfe1bd80dbbf6d8d7ed312e6cac7968d68d7e"
+    },
+    {
+      "item": "voa:2500440@voa-trim/163aae96e072#7:56",
+      "voice": "gb",
+      "file": "f178538ddfd44639-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "428c200649a8390398d837080c963a626f15540755854e4389b2bb02a8799e5d"
+    },
+    {
+      "item": "voa:2500440@voa-trim/163aae96e072#7:56",
+      "voice": "us",
+      "file": "f178538ddfd44639-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "428c200649a8390398d837080c963a626f15540755854e4389b2bb02a8799e5d"
+    },
+    {
+      "item": "voa:2569201@voa-trim/163aae96e072#1:23",
+      "voice": "gb",
+      "file": "76926c7c76c7a2e9-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "1c74a75f681879d4c9f0bb5a89cf21608328861362a9f4962114f7f85ce5b37c"
+    },
+    {
+      "item": "voa:2569201@voa-trim/163aae96e072#1:23",
+      "voice": "us",
+      "file": "76926c7c76c7a2e9-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "1c74a75f681879d4c9f0bb5a89cf21608328861362a9f4962114f7f85ce5b37c"
+    },
+    {
+      "item": "voa:2569201@voa-trim/163aae96e072#8:68",
+      "voice": "gb",
+      "file": "8f51e977d90ed4c0-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "a847c36ca2916c80182b7b879d939844e43c14d065bce654ef3027bfbde43472"
+    },
+    {
+      "item": "voa:2569201@voa-trim/163aae96e072#8:68",
+      "voice": "us",
+      "file": "8f51e977d90ed4c0-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "a847c36ca2916c80182b7b879d939844e43c14d065bce654ef3027bfbde43472"
+    },
+    {
+      "item": "voa:2678000@voa-trim/163aae96e072#16:57",
+      "voice": "gb",
+      "file": "b8e727785169e997-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "05acc5c9b209abe55e9b6fb9e91fa1fa74311c3ddffcfe74c7c87b271fdf2f34"
+    },
+    {
+      "item": "voa:2678000@voa-trim/163aae96e072#16:57",
+      "voice": "us",
+      "file": "b8e727785169e997-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "05acc5c9b209abe55e9b6fb9e91fa1fa74311c3ddffcfe74c7c87b271fdf2f34"
+    },
+    {
+      "item": "voa:3304443@voa-trim/163aae96e072#33:158",
+      "voice": "gb",
+      "file": "555457e5f2a153b3-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "9229c1357e30c79d2e9ef96d1e89e2d46fe6c2f59133c87a71a8445e3efa1889"
+    },
+    {
+      "item": "voa:3304443@voa-trim/163aae96e072#33:158",
+      "voice": "us",
+      "file": "555457e5f2a153b3-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "9229c1357e30c79d2e9ef96d1e89e2d46fe6c2f59133c87a71a8445e3efa1889"
+    },
+    {
+      "item": "voa:3304443@voa-trim/163aae96e072#3:0",
+      "voice": "gb",
+      "file": "eb1a085bc67dc3ed-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "d1a653333213a52ff5bf2060f64df63a27121c4f165f9c1f897636d5d1ce2ee3"
+    },
+    {
+      "item": "voa:3304443@voa-trim/163aae96e072#3:0",
+      "voice": "us",
+      "file": "eb1a085bc67dc3ed-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "d1a653333213a52ff5bf2060f64df63a27121c4f165f9c1f897636d5d1ce2ee3"
+    },
+    {
+      "item": "voa:3329623@voa-trim/163aae96e072#16:0",
+      "voice": "gb",
+      "file": "7b58ffdf60a4fe92-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "0ba795590d6a1889efd411d52174f605830381671ee55f2ad42477de4f48ea82"
+    },
+    {
+      "item": "voa:3329623@voa-trim/163aae96e072#16:0",
+      "voice": "us",
+      "file": "7b58ffdf60a4fe92-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "0ba795590d6a1889efd411d52174f605830381671ee55f2ad42477de4f48ea82"
+    },
+    {
+      "item": "voa:3329623@voa-trim/163aae96e072#20:126",
+      "voice": "gb",
+      "file": "4ab6971c6b442357-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "f0ea0eae2c47401c6959a76d6ee05c0fbc4d408167f6444bc8252504a12e65db"
+    },
+    {
+      "item": "voa:3329623@voa-trim/163aae96e072#20:126",
+      "voice": "us",
+      "file": "4ab6971c6b442357-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "f0ea0eae2c47401c6959a76d6ee05c0fbc4d408167f6444bc8252504a12e65db"
+    },
+    {
+      "item": "voa:3681464@voa-trim/163aae96e072#1:0",
+      "voice": "gb",
+      "file": "e973b276ce22b3f2-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "958f4eb76e1b30a35f1ab8f57ea790ed215d0cbd92717cf6a12636ac07b4fac5"
+    },
+    {
+      "item": "voa:3681464@voa-trim/163aae96e072#1:0",
+      "voice": "us",
+      "file": "e973b276ce22b3f2-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "958f4eb76e1b30a35f1ab8f57ea790ed215d0cbd92717cf6a12636ac07b4fac5"
+    },
+    {
+      "item": "voa:4140567@voa-trim/163aae96e072#12:0",
+      "voice": "gb",
+      "file": "eb5353717fec7fee-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "b2381fa8fa57c5069d1c376c4a89c133aa212490e2c57b73ee5d9aa618da3ea9"
+    },
+    {
+      "item": "voa:4140567@voa-trim/163aae96e072#12:0",
+      "voice": "us",
+      "file": "eb5353717fec7fee-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "b2381fa8fa57c5069d1c376c4a89c133aa212490e2c57b73ee5d9aa618da3ea9"
+    },
+    {
+      "item": "voa:4140567@voa-trim/163aae96e072#9:0",
+      "voice": "gb",
+      "file": "47d40e996b0934b7-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "d35f2188aa294c022279239b09f769478845553552796d5cc362b812781043c1"
+    },
+    {
+      "item": "voa:4140567@voa-trim/163aae96e072#9:0",
+      "voice": "us",
+      "file": "47d40e996b0934b7-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "d35f2188aa294c022279239b09f769478845553552796d5cc362b812781043c1"
+    },
+    {
+      "item": "voa:4170818@voa-trim/163aae96e072#21:0",
+      "voice": "gb",
+      "file": "6c83a87c88e21813-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "ae88b7284659155a864a6bb11f33ad9328ffd4dc8825fbe68e19663e59d5f346"
+    },
+    {
+      "item": "voa:4170818@voa-trim/163aae96e072#21:0",
+      "voice": "us",
+      "file": "6c83a87c88e21813-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "ae88b7284659155a864a6bb11f33ad9328ffd4dc8825fbe68e19663e59d5f346"
+    },
+    {
+      "item": "voa:5596636@voa-trim/163aae96e072#3:284",
+      "voice": "gb",
+      "file": "87d49a0d9b5e5e83-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "66a2ff0cce8e0b42b05b247af89538e1ca572903faa79d47b113064d1df17b6b"
+    },
+    {
+      "item": "voa:5596636@voa-trim/163aae96e072#3:284",
+      "voice": "us",
+      "file": "87d49a0d9b5e5e83-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "66a2ff0cce8e0b42b05b247af89538e1ca572903faa79d47b113064d1df17b6b"
+    },
+    {
+      "item": "voa:6474764@voa-trim/163aae96e072#19:109",
+      "voice": "gb",
+      "file": "155964fedf35797a-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "819baead06566091a811ea87d31a192a9c2073f5305d1b98f4a5698a02860802"
+    },
+    {
+      "item": "voa:6474764@voa-trim/163aae96e072#19:109",
+      "voice": "us",
+      "file": "155964fedf35797a-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "819baead06566091a811ea87d31a192a9c2073f5305d1b98f4a5698a02860802"
+    },
+    {
+      "item": "voa:6474764@voa-trim/163aae96e072#22:185",
+      "voice": "gb",
+      "file": "27d1474f2373a5bf-gb.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "c4604bfcd7f65a748ac11b551fc7b3b4ecd7bf0c3404545da51e6799e2192fed"
+    },
+    {
+      "item": "voa:6474764@voa-trim/163aae96e072#22:185",
+      "voice": "us",
+      "file": "27d1474f2373a5bf-us.mp3",
+      "modelRevision": "f3ff3571791e39611d31c381e3a41a3af07b4987",
+      "textSha256": "c4604bfcd7f65a748ac11b551fc7b3b4ecd7bf0c3404545da51e6799e2192fed"
+    }
+  ]
+}
