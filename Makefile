@@ -194,6 +194,13 @@ score-native:
 	PYTHONPATH=$(CURDIR)/tools $(UV_RUN) services/speech --with pyarrow python -m score_eval.native $(ARGS)
 	PYTHONPATH=$(CURDIR)/tools uv run --no-project python -m score_eval.report $(NATIVE_JSONL)
 
+# Part 2 (tools/score_eval/README.md): re-scores a SPEECH_DEBUG_DUMP_DIR dump from its audio under
+# thresholds v1 and v2, matched by order to a hand-written notes file. Real model; local only.
+.PHONY: score-vi
+score-vi:
+	@test -n "$(DUMP)" -a -n "$(NOTES)" || { echo "usage: make score-vi DUMP=<dir> NOTES=<file>"; exit 1; }
+	PYTHONPATH=$(CURDIR)/tools $(UV_RUN) services/speech python -m score_eval.vi --dump $(abspath $(DUMP)) --notes $(abspath $(NOTES))
+
 .PHONY: speaking-items
 speaking-items:
 	PYTHONPATH=$(CURDIR)/tools $(UV_RUN) services/speech python -m speaking_items.pick $(ARGS)
