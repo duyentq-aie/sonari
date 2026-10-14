@@ -70,6 +70,16 @@ def plain(text: str, vocab: Counter[str]) -> bool:
     )
 
 
+def practicable(
+    text: str, vocab: Counter[str], pronounce: Callable[[str], Sequence[Any]]
+) -> Sequence[Any]:
+    """The sentence's words when a learner can practise it, else nothing: plain, 6-14 words, and
+    every word pronounced from a source that is not a guess. Also what the passage view marks
+    (classes.py)."""
+    words = pronounce(text) if plain(text, vocab) else []
+    return words if len(words) in WORDS and all(w.source in RELIABLE for w in words) else []
+
+
 def candidates(
     row: dict[str, Any],
     vocab: Counter[str],
@@ -79,8 +89,7 @@ def candidates(
     source = f"voa:{row['id']}@{row['raw']['trim']['rules_version']}"
     for number, line in enumerate(row["raw"]["text"]):
         for match in SENTENCE.finditer(line):
-            words = pronounce(match.group()) if plain(match.group(), vocab) else []
-            if len(words) in WORDS and all(w.source in RELIABLE for w in words):
+            if words := practicable(match.group(), vocab, pronounce):
                 spans = [
                     {"text": w.text, "start": w.start, "end": w.end, "tokens": list(w.tokens)}
                     for w in words
