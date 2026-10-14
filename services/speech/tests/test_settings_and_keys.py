@@ -33,9 +33,32 @@ def test_defaults_follow_the_bench_numbers_for_the_usable_cores() -> None:
     assert settings.in_flight_limit == 5
 
 
-def test_max_in_flight_overrides_the_table_but_never_drops_below_the_slots() -> None:
-    assert Settings(cores=2, max_in_flight=9).in_flight_limit == 9
-    assert Settings(cores=4, max_in_flight=1).in_flight_limit == 4
+def gate(**settings: int) -> tuple[int, int]:
+    found = Settings(**settings)  # type: ignore[arg-type]
+    return found.slots, found.in_flight_limit
+
+
+# cores -> (slots, in-flight limit). The limit is BENCH.md's capacity, never the core count: 12
+# cores once gave in_flight_limit=12, and 12 at once measured p95 2.08 s, over the 2 s target.
+@pytest.mark.parametrize(
+    ("cores", "expected"), [(1, (1, 2)), (2, (2, 5)), (4, (4, 7)), (12, (7, 7))]
+)
+def test_the_limit_never_exceeds_the_measured_capacity_nor_slots_the_limit(
+    cores: int, expected: tuple[int, int]
+) -> None:
+    assert gate(cores=cores) == expected
+    assert expected[1] <= capacity_for(cores)
+
+
+def test_max_in_flight_is_an_explicit_override_and_slots_follow_it() -> None:
+    assert gate(cores=2, max_in_flight=9) == (2, 9)
+    assert gate(cores=12, max_in_flight=12) == (12, 12)  # a capacity measured on the real machine
+    assert gate(cores=4, max_in_flight=1) == (1, 1)  # as given: no slot that could never run
+
+
+def test_max_in_flight_is_read_from_the_environment(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("SPEECH_MAX_IN_FLIGHT", "10")
+    assert gate(cores=12) == (10, 10)
 
 
 def test_settings_read_the_environment(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
