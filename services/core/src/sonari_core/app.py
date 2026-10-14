@@ -11,6 +11,7 @@ from fastapi import FastAPI
 from opentelemetry.sdk.trace import TracerProvider
 
 from sonari_core import analytics, content, gamification, identity, learning
+from sonari_core.content.passages_router import router as passages_router
 from sonari_core.content.router import router as content_router
 from sonari_core.identity.service import AuthService
 from sonari_core.identity.wiring import IdentityRuntime, build_identity
@@ -93,4 +94,5 @@ def create_app(
     app.include_router(health.router)
     app.include_router(identity.router)
     app.include_router(content_router)
+    app.include_router(passages_router)
     return app
