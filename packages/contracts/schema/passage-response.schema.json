@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sonari.dev/schema/passage-response.schema.json",
+  "title": "PassageResponse",
+  "description": "Answer of the core service's GET /v1/passages/{id}: one passage line by line. Each line is cut into segments whose texts join back to the line exactly; a practicable segment is a whole sentence a learner can record, and its text is the referenceText of POST /v1/score.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "type", "url", "lines"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "title": {"type": "string"},
+    "type": {"enum": ["explainer", "news_item"]},
+    "url": {"type": "string", "minLength": 1},
+    "lines": {"type": "array", "items": {"type": "array", "items": {"$ref": "#/$defs/segment"}}}
+  },
+  "$defs": {
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "practicable"],
+      "properties": {"text": {"type": "string", "minLength": 1}, "practicable": {"type": "boolean"}}
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sonari.dev/schema/passages-response.schema.json",
+  "title": "PassagesResponse",
+  "description": "Answer of the core service's GET /v1/passages?unit=<unit>: the passages of a unit a learner may read (an explainer or a news item with no safety flag under the default rule), current versions only, ordered by id.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["passages"],
+  "properties": {"passages": {"type": "array", "items": {"$ref": "#/$defs/passage"}}},
+  "$defs": {
+    "passage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "type", "url"],
+      "properties": {
+        "id": {"description": "The pinned Source version (voa:<article>@<rules version>). Contains '/' and ':': URL-encode it as a path segment of GET /v1/passages/{id}.", "type": "string", "minLength": 1},
+        "title": {"description": "The passage's title, in English.", "type": "string"},
+        "type": {"enum": ["explainer", "news_item"]},
+        "url": {"description": "The VOA page the passage comes from, for the credit.", "type": "string", "minLength": 1}
+      }
+    }
+  }
+}

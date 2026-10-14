@@ -44,7 +44,7 @@ dev: infra apps/web/node_modules
 # From a fresh clone to the practice page: the speech data, the infra, the demo content, the apps.
 # Needs Docker, Node 22, uv, ffmpeg and espeak-ng (README.md, "Run it").
 .PHONY: demo
-demo: speech-data ingest-demo-sources ingest-speaking-items dev
+demo: speech-data ingest-demo-sources ingest-speaking-items ingest-demo-classes dev
 
 # The speech service's data, once per machine (needs network, about 360 MB): the int8 model from
 # Hugging Face, kept only when its size and SHA-256 match runtime/models.yaml, and the CMUdict
@@ -215,10 +215,17 @@ score-listen:
 	$(UV_RUN) services/speech python $(CURDIR)/tools/listen_audio/score.py $(SPEECH_URL)
 
 # Passage type, safety flags, units and practicable sentences -> ~/sonari-trimmed/voa/classes.jsonl
-# (tools/speaking_items/classes.py, about 1 min; read-only on the corpus).
-.PHONY: passage-classes
+# (tools/speaking_items/classes.py, about 1 min), then into content.passage_classes (idempotent).
+.PHONY: passage-classes ingest-passage-classes ingest-demo-classes
 passage-classes:
 	PYTHONPATH=$(CURDIR)/tools $(UV_RUN) services/speech python -m speaking_items.classes $(ARGS)
+
+CLASSES_FILE ?= $(HOME)/sonari-trimmed/voa/classes.jsonl
+ingest-passage-classes: infra
+	$(UV_RUN) services/core --env-file $(CURDIR)/.env python $(CURDIR)/scripts/ingest_passage_classes.py $(CLASSES_FILE) $(ARGS)
+
+ingest-demo-classes: CLASSES_FILE = $(CURDIR)/tools/speaking_items/classes.jsonl
+ingest-demo-classes: ingest-passage-classes
 
 .PHONY: speaking-items
 speaking-items:
