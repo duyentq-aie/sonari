@@ -1,5 +1,6 @@
 exclude: ^\.claude/
-default_stages: [pre-commit]
+# pre-merge-commit: a merge commit runs no pre-commit hook; `make setup` installs this stage too.
+default_stages: [pre-commit, pre-merge-commit]
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
