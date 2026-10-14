@@ -66,6 +66,18 @@
   "app": {
     "title": "Sonari – Luyện nói tiếng Anh"
   },
+  "reading": {
+    "heading": "Bài đọc",
+    "unit": "Chủ đề: Học tập và công việc. Chọn một bài để đọc.",
+    "loading": "Đang tải bài đọc…",
+    "empty": "Chưa có bài đọc nào cho chủ đề này.",
+    "hint": "Câu có nền xanh và gạch chân là câu bạn có thể luyện nói. Bấm vào câu đó để ghi âm.",
+    "back": "← Quay lại bài đọc",
+    "toList": "← Tất cả bài đọc",
+    "toPractice": "← Luyện nói",
+    "open": "Đọc bài và luyện từng câu →",
+    "source": "Nguồn:"
+  },
   "practice": {
     "heading": "Luyện nói",
     "instruction": "Đọc to câu tiếng Anh dưới đây. Bấm “Ghi âm” để bắt đầu và “Dừng” khi đọc xong.",

@@ -6,7 +6,7 @@ import type { ScoreResponse } from "./score";
 export type SpeakingItem = { id: string; text: string; unit: string };
 export type Result<T> = { ok: true; data: T } | { ok: false; messageKey: string };
 
-async function call<T>(input: string, init?: RequestInit): Promise<Result<T>> {
+export async function call<T>(input: string, init?: RequestInit): Promise<Result<T>> {
   try {
     const response = await fetch(input, init);
     const body: unknown = await response.json().catch(() => null);
