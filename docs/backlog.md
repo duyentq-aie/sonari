@@ -35,14 +35,9 @@ PR description.
   unit's vocabulary by comparing CMUdict variants with espeak-ng (a probe on 2026-10-03 found
   camera, restaurant, average, every, different); download `cmudict` in CI so the 35 live g2p
   tests run there.
-- Hooks skipped in merge commits (found while fixing `check-merge-conflict`, measured 2026-10-03
-  in a throwaway repo; none fixed yet): (1) a merge that git commits by itself (no conflicts) runs
-  only the commit-msg hook, because `make setup` installs `pre-commit` and `commit-msg` but not
-  `pre-merge-commit`, so a file with trailing whitespace or unused imports comes in unchecked; (2) a merge
+- Hooks in merge commits: #62 installs `pre-merge-commit` (a clean merge now runs every hook). Still open: a merge
   with conflicts runs the pre-commit hooks on the conflicted files only (pre-commit's own rule, "Checking
-  merge-conflict files only"), so a Python file that merged cleanly is not linted. CI's
-  `pre-commit run --all-files` still checks everything on the PR. Option: `pre-commit install --hook-type
-  pre-merge-commit` in `make setup`, with `stages: [pre-commit, pre-merge-commit]` on the hooks.
+  merge-conflict files only"), so a Python file that merged cleanly is not linted; CI's `--all-files` covers it.
 - Speech runtime follow-ups (P20): a smaller image (the ffmpeg package is 464 MB of 1.1 GB; a
   static ffmpeg build would be about 70 MB); the OpenTelemetry SDK, exporter and FastAPI
   instrumentation for the speech service as core has them (the runtime already creates
@@ -54,13 +49,6 @@ PR description.
   `actions/cache` keyed on the pinned SHA-256 (the first run downloads it, later runs restore it).
   If the core job grows (it is 42 s now, 24 s of it starting MongoDB and Redis), cache the mongo and redis
   images, or run only `mongod` for the tests that do not need Redis.
-- check-merge-conflict does not fire on commits created during a rebase; markers
-  were pushed twice today (#26, #28) through that gap. Add a CI step that greps
-  for markers in tracked text files. CI is the surer place: it covers every path
-  into main, regardless of which git command created the commit.
-- `make setup` does not install the pre-merge-commit hook, so a clean merge that
-  git commits itself runs only commit-msg hooks. Add
-  `pre-commit install --hook-type pre-merge-commit` to `make setup`.
 - Add a CI check that fails when any models.yaml entry has a null or empty url.
   PR #26 merged with `url: null`; draft status is a convention, not an
   enforcement.
@@ -118,9 +106,9 @@ PR description.
   out; `original_words` is the corpus tokeniser over every line of `original_text`, furniture included (all 724
   stored records; ADR-0010 called it "editorial words"). The gap is small and runs both ways. Both are enforced
   as the writer produces them (`trim_rules.py`); whether they should share one tokeniser is a superseding ADR.
-- `TrimmedPassage` is also what `Source` is read through, so a rule in `trim_rules.py` that tightens later makes
-  older stored versions fail to load, and ADR-0010 keeps them. Decide before such a change lands whether stored
-  versions are migrated or only a file entering is validated.
+- ADR-0010 decision 6 ends "`Source` inherits these checks, so they also run when a stored version is read". After
+  #60 that is no longer true (`Source` reads through `PassageRecord`, no ADR-0008 check; ingest is as strict as
+  before). Its Consequences do not mention it, so it was not amended: correct the sentence or write a superseding ADR.
 - `make test-scripts` pins pydantic, beanie and what they pull in to the core lock (`scripts/locked_pins.py`);
   pytest, pyyaml and uv itself still float.
 - One passage ends a content line with the page furniture "Return to main page" glued on (a letter in the
@@ -157,3 +145,16 @@ PR description.
   "Cần luyện" (wrong) is untested; ask a native reader and watch one learner before the legend wording is fixed.
 - Web: the page trusts the shape of `/v1/score` beyond `words` being an array. If the contract grows a field the view
   needs, validate it at the proxy (the schema is in `packages/contracts`) rather than in the component.
+- Listen audio (#56): playback was not exercised in a real browser; quality by ear is still `spikes/tts/CHECKLIST.md`.
+  Kokoro's `bf_emma` scored one word wrong ("laboratory", British /ləˈbɒrətri/). A sentence whose text changes needs
+  `make listen-audio` again (the manifest test fails until then). Voices for passages beyond the 20 items: not made.
+- Score-vi (#55): the FIT rule (≥ 80% of deliberate errors caught, ≤ 1.0 wrong per normal reading) was set without
+  data by the assistant; revisit it before the evaluation set is scored. Notes name a deliberate error by the first
+  word with that spelling; a sentence with the word twice needs an index.
+- Passages (#57, #58): a G2P change moves `classifier_version`, so a re-run reclassifies every passage (replaced, not
+  versioned). The detail route serves any pinned version that passes the list rule; the list shows current versions
+  only. The unit names are English API values; the reading page has Vietnamese copy for "Study and work" only.
+- Reading page (#59): the passage id travels as `?id=`; the practice view of a passage sentence has no listen audio
+  unless the sentence is also a speaking item.
+- `make test-speech` ran in about 11 s on the laptop on 2026-10-14 (458 tests on main): over the 10 s budget. Profile
+  with `pytest --durations=15` and move slow cases out or speed them up.
