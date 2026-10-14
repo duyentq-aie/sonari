@@ -1,4 +1,9 @@
-"""Models of the content database: the validated passage, and the Beanie document that stores it."""
+"""Models of the content database: the validated passage, and the Beanie document that stores it.
+
+The ADR-0008 checks run where a file enters (`TrimmedPassage`, `Trim`), never on read. A stored
+version is immutable (ADR-0010), so a rule tightened later must not stop it from loading: `Source`
+and its `trim` keep the shape (`PassageRecord`, `StoredTrim`) without the rule checks.
+"""
 
 from datetime import datetime
 from typing import ClassVar, Self
@@ -26,13 +31,17 @@ class RemovedLine(BaseModel):
     text: str
 
 
-class Trim(BaseModel):
+class StoredTrim(BaseModel):
+    """`trim` as stored: the shape only. `Trim` adds the ADR-0008 checks for a file coming in."""
+
     rules_version: str = Field(min_length=1)
     cap: float  # ADR-0008 decision 2: always `TRIM_CAP`; a file does not choose its own
     removed_words: int  # editorial words only; page furniture does not count against the cap
     removed_share: float  # `removed_words` over the original's words, to 4 places
     removed: list[RemovedLine]
 
+
+class Trim(StoredTrim):
     @model_validator(mode="after")
     def _the_cap_is_the_adr_s_and_the_cut_is_what_the_lines_say(self) -> Self:
         if self.cap != TRIM_CAP:
@@ -46,13 +55,9 @@ class Trim(BaseModel):
         return self
 
 
-class TrimmedPassage(BaseModel):
-    """One passage of English source text as one rules version trimmed it.
-
-    This is a line of the trimmed corpus, checked the way ADR-0008 asks: a trim removes whole
-    lines and nothing else. It needs no database, so a file is validated before anything is
-    written. `Source` is the stored form.
-    """
+class PassageRecord(BaseModel):
+    """One passage of English source text as one rules version trimmed it: the fields only.
+    `TrimmedPassage` checks them where a file enters; `Source` stores them."""
 
     source_id: str  # `voa:<article number>`: the passage, whatever version of its trim this is
     url: str
@@ -64,12 +69,20 @@ class TrimmedPassage(BaseModel):
     original_words: int
     original_text: list[str]  # the lines as the parser returned them, untouched
     text: list[str]  # `original_text` minus `trim.removed`, byte for byte
-    trim: Trim
+    trim: StoredTrim
 
     @property
     def key(self) -> str:
         """Identity of this version of the passage: also its `_id` once stored (ADR-0010)."""
         return f"{self.source_id}@{self.trim.rules_version}"
+
+
+class TrimmedPassage(PassageRecord):
+    """A line of the trimmed corpus, checked the way ADR-0008 asks: a trim removes whole lines
+    and nothing else, within the cap, the length window and the grade ceiling. It needs no
+    database, so a file is validated before anything is written. `Source` is the stored form."""
+
+    trim: Trim
 
     @model_validator(mode="after")
     def _text_is_the_original_minus_the_removed_lines(self) -> Self:
@@ -123,10 +136,11 @@ class TrimmedPassage(BaseModel):
         return self
 
 
-class Source(TrimmedPassage, Document):
+class Source(PassageRecord, Document):
     """A stored version of a passage. Every rules version is its own immutable document;
     exactly one version of a passage is `current` (ADR-0010). Everything downstream reads
-    `text`; `original_text` and `trim` let the trim be audited and undone."""
+    `text`; `original_text` and `trim` let the trim be audited and undone. Read as stored: the
+    ADR-0008 checks ran when the version came in, and are not repeated on read."""
 
     id: str  # type: ignore[assignment]  # `key`, so dev and prod hold the same ids
     current: bool
