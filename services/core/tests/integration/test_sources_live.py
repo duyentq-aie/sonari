@@ -9,6 +9,7 @@ import asyncio
 import random
 from collections.abc import AsyncIterator, Callable, Sequence
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 from typing import Any
 
 import pytest
@@ -17,14 +18,17 @@ from pymongo import AsyncMongoClient
 from pymongo.errors import DuplicateKeyError
 
 from sonari_core import content
+from sonari_core.content import models
 from sonari_core.content.ingest import (
+    InvalidCorpus,
     bind_read_only,
     ingest_sources,
+    load_passages,
     passage_from_record,
     plan_sources,
 )
 from sonari_core.content.models import Source, TrimmedPassage
-from source_fakes import BASE_ARTICLE, VERSION_A, VERSION_B, make_record
+from source_fakes import BASE_ARTICLE, VERSION_A, VERSION_B, make_record, write_corpus
 
 NOW = datetime(2026, 10, 4, 9, 0, tzinfo=UTC)
 Articles = Callable[[int], list[int]]
@@ -256,3 +260,18 @@ async def test_the_collection_has_the_id_and_one_partial_unique_index(articles: 
     assert indexes["source_id_current"]["key"] == [("source_id", 1)]
     assert indexes["source_id_current"]["unique"] is True
     assert indexes["source_id_current"]["partialFilterExpression"] == {"current": True}
+
+
+async def test_a_stored_version_still_reads_after_a_rule_tightens_and_ingest_refuses_it(
+    articles: Articles, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    (number,) = articles(1)
+    record = make_record(number)
+    await ingest_sources([passage_from_record(record)], NOW)
+    monkeypatch.setattr(models, "MAX_FK", 4.0)  # the fake's fk is 4.2: allowed then, refused now
+
+    found = await Source.get(f"voa:{number}@{VERSION_A}")
+    assert found is not None and found.fk == 4.2 and found.current
+    assert [d.id for d in await stored([number])] == [found.id]
+    with pytest.raises(InvalidCorpus, match=r"fk is 4\.2"):
+        load_passages(write_corpus(tmp_path, [record]))

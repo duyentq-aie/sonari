@@ -7,12 +7,14 @@ from typing import Any
 
 import pytest
 
+from sonari_core.content import models
 from sonari_core.content.ingest import (
     InvalidCorpus,
     load_passages,
     passage_from_record,
     voa_source_id,
 )
+from sonari_core.content.models import PassageRecord
 from source_fakes import BASE_ARTICLE, VERSION_A, make_record, url_of, write_corpus
 
 Record = dict[str, Any]
@@ -186,3 +188,27 @@ def test_one_article_twice_in_a_file_is_refused_because_two_versions_cannot_both
 
     with pytest.raises(InvalidCorpus, match=r"line 2.*appears twice"):
         load_passages(write_corpus(tmp_path, records))
+
+
+# A rule tightened after a version was stored: what ADR-0008 allowed then, it refuses now.
+TIGHTER = [("MAX_FK", 4.0), ("TRIM_CAP", 0.04), ("MAX_WORDS", 300)]  # the fake: fk 4.2, 480 words
+
+
+@pytest.mark.parametrize(("rule", "tighter"), TIGHTER)
+def test_a_tighter_rule_refuses_the_file_but_not_the_stored_shape(
+    monkeypatch: pytest.MonkeyPatch, rule: str, tighter: float
+) -> None:
+    record = make_record(BASE_ARTICLE + 7)
+    stored = passage_from_record(record).model_dump()
+    monkeypatch.setattr(models, rule, tighter)
+
+    with pytest.raises(ValueError, match="ADR-0008"):
+        passage_from_record(record)
+    assert PassageRecord.model_validate(stored).key == f"voa:{BASE_ARTICLE + 7}@{VERSION_A}"
+
+
+def test_source_is_read_with_no_adr_0008_check() -> None:
+    assert not issubclass(models.Source, models.TrimmedPassage)
+    assert models.Source.model_fields["trim"].annotation is models.StoredTrim
+    assert not PassageRecord.__pydantic_decorators__.model_validators
+    assert not models.StoredTrim.__pydantic_decorators__.model_validators
