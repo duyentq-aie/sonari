@@ -158,3 +158,7 @@ PR description.
   unless the sentence is also a speaking item.
 - `make test-speech` ran in about 11 s on the laptop on 2026-10-14 (458 tests on main): over the 10 s budget. Profile
   with `pytest --durations=15` and move slow cases out or speed them up.
+- Glosses (`tools/glosses`), ideas only: targets are lowercase spellings, not lemmas, and the level lookup takes the
+  first headword it meets ("found" as B2 "to found", not the past of "find"); a lemma step would merge "user"/"users"
+  and fix that. Sense is not detected (nltk tags are a hint with errors); WordNet sense counts could pick which words
+  deserve two gold pairs. P52's spend cap, retry and batch mode are not in the adapter (40 calls do not need them).
