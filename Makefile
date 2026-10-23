@@ -117,7 +117,7 @@ test-scripts:
 
 # numpy-only tests (tools + spike aligner); neither torch project is installed for these.
 test-tools:
-	uv run --no-project --with pytest --with numpy --with pyyaml pytest tools spikes/gop/tests
+	uv run --no-project --with pytest --with numpy --with pyyaml --with $(OTEL_SDK) pytest tools spikes/gop/tests
 
 # VOA inventory (P06): a polite, resumable crawl into DATA_DIR/voa_cache, then an offline
 # report. The crawl needs VOA_CONTACT_EMAIL (it goes into the User-Agent). Not part of CI.
@@ -228,6 +228,20 @@ ingest-passage-classes: infra
 
 ingest-demo-classes: CLASSES_FILE = $(CURDIR)/tools/speaking_items/classes.jsonl
 ingest-demo-classes: ingest-passage-classes
+
+# Vietnamese glosses of B1-B2 words, generated offline and reviewed (tools/glosses/README.md).
+# gloss-gold: the target words and the 40-pair gold set (after passage-classes); gloss-lock: hash
+# the filled gold set; gloss-eval: the model on the gold pairs (ARGS=--fake: no API call).
+OTEL_SDK := opentelemetry-sdk==1.45.0
+GLOSS_RUN := PYTHONPATH=$(CURDIR)/tools uv run --no-project --with $(OTEL_SDK) \
+  --with opentelemetry-exporter-otlp-proto-http==1.45.0
+.PHONY: gloss-gold gloss-lock gloss-eval
+gloss-gold: voa-wordlists
+	PYTHONPATH=$(CURDIR)/tools $(UV_RUN) services/speech python -m glosses.targets $(ARGS)
+gloss-lock:
+	$(GLOSS_RUN) python -m glosses.evaluate lock
+gloss-eval: voa-wordlists
+	$(GLOSS_RUN) $(if $(wildcard .env),--env-file .env) python -m glosses.evaluate eval $(ARGS)
 
 .PHONY: speaking-items
 speaking-items:
