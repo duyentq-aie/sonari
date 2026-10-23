@@ -106,9 +106,6 @@ PR description.
   out; `original_words` is the corpus tokeniser over every line of `original_text`, furniture included (all 724
   stored records; ADR-0010 called it "editorial words"). The gap is small and runs both ways. Both are enforced
   as the writer produces them (`trim_rules.py`); whether they should share one tokeniser is a superseding ADR.
-- ADR-0010 decision 6 ends "`Source` inherits these checks, so they also run when a stored version is read". After
-  #60 that is no longer true (`Source` reads through `PassageRecord`, no ADR-0008 check; ingest is as strict as
-  before). Its Consequences do not mention it, so it was not amended: correct the sentence or write a superseding ADR.
 - `make test-scripts` pins pydantic, beanie and what they pull in to the core lock (`scripts/locked_pins.py`);
   pytest, pyyaml and uv itself still float.
 - One passage ends a content line with the page furniture "Return to main page" glued on (a letter in the
