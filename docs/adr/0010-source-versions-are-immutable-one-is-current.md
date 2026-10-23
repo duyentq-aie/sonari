@@ -67,7 +67,9 @@ kept with one marked current?** Three facts decide it.
    derived from the lines and must equal what the file says; the trimmed text is 250-1,200 words;
    `fk` is below 7), a field the schema does not keep (so provenance cannot vanish quietly), one
    version per passage per file, and, when `MANIFEST.json` sits beside it, the file's sha256 and
-   passage count. `Source` inherits these checks, so they also run when a stored version is read.
+   passage count. `Source` does not inherit these checks: they run where a file enters, and a
+   stored version is read as stored, so a rule that tightens later cannot make an older version
+   unreadable (as decision 3 requires).
 
 ## The document
 
